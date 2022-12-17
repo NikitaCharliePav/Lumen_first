@@ -20,3 +20,5 @@ $router->get('/', function () use ($router) {
 
 $router->get('/api/v1/products', 'ProductsController@getProducts');
 $router->post('/api/v1/order/create', 'OrderController@createOrder');
+$router->get('/api/v1/product/{id}', 'ProductsController@getProduct');
+$router->get('/api/v1/product-by-name', 'ProductsController@getProductByName');

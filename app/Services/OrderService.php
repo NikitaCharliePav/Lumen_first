@@ -10,7 +10,7 @@ use PHPUnit\Util\Exception;
 
 class OrderService
 {
-    public function createOrder(string $userId, array $products)
+    public function  createOrder(string $userId, array $products)
     {
         return DB::transaction(function () use($userId, $products){
             $order = new Order();

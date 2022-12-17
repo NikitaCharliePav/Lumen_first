@@ -10,4 +10,16 @@ class ProductsService
     {
         return Product::paginate($limit);
     }
+
+    public function getProduct(string $id)
+    {
+        $product = Product::find($id);
+        return $product;
+    }
+
+    public function getProductByName($name)
+    {
+        $product = Product::where('name', $name)->first();
+        return $product;
+    }
 }
