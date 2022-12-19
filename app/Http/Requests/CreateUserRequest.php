@@ -26,9 +26,12 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'login' => 'string|required',
+            'login' => 'string|required|unique:users,login',
             'email' => 'email|unique:users,email',
-            'name' => 'string|required'
+            'name' => 'string|required',
+            'birthday_at' => 'date|date_format:Y-m-d|after:1950-01-01|before:2022-01-01',
+            'gender' => 'string|in:male,female',
+            'password' => 'regex:/[a-z0-9!"№;%:?*_-]/i|string|min:6',
         ];
     }
     public function bodyParameters()
@@ -45,7 +48,20 @@ class CreateUserRequest extends FormRequest
             'name' => [
                 'description' => 'user name',
                 'example' => 'Charlie'
-            ]
+            ],
+            'birthday_at' => [
+                'description'=> 'birthday date',
+                'example' => '1994-12-20'
+            ],
+            'gender' => [
+                'description'=> 'gender',
+                'example' => 'male'
+            ],
+            'password' => [
+                'description'=> 'user password',
+                'example' => 'gdf45egdGFSD'
+            ],
+
         ];
     }
 }
