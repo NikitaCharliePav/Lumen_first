@@ -14,6 +14,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
 {
     use Authenticatable, Authorizable, HasFactory, UuidTrait;
 
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *

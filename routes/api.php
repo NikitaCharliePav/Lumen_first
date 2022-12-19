@@ -22,3 +22,4 @@ $router->get('/api/v1/products', 'ProductsController@getProducts');
 $router->post('/api/v1/order/create', 'OrderController@createOrder');
 $router->get('/api/v1/product/{id}', 'ProductsController@getProduct');
 $router->get('/api/v1/product-by-name', 'ProductsController@getProductByName');
+$router->post('/api/v1/user/create', 'UsersController@createUsers');
