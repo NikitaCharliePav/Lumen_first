@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddEmailToUsersTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddEmailToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->nullable()->default(null)->index()->after('login');
+        Schema::create('favorites', function (Blueprint $table) {
+            $table->uuid('id');
+            $table->foreignUuid('user_id');
+            $table->foreignUuid('product_id');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddEmailToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('email');
-        });
+        Schema::dropIfExists('favorites');
     }
 }

@@ -39,5 +39,24 @@ class OrderService
         }
     }
 
+    public  function getLastUserOrder (string $userId)
+    {
+        $order = Order::where('user_id', $userId)->orderBy('created_at', 'DESC')->first();
+
+        return $order;
+    }
+
+    public function getSumProductsByOrder(string $id)
+    {
+        $sum = 0;
+        $orderProduct = OrderProduct::with('products')->where('order_id', $id)->get();
+        foreach ($orderProduct as $order)
+        {
+            $sum += $order->products->sum('price');
+        }
+        return $sum;
+
+    }
+
 }
 

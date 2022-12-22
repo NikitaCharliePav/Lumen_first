@@ -29,9 +29,14 @@ class ProductsSeeder extends Seeder
         $kindProduct = Arr::random(['t-shirt', 'chemise', 'dress ', 'sweater', 'sweatshirt', 'shorts', 'trousers', 'skirt', 'jeans', 'coat', 'jacket']);
         $colorProduct= Arr::random(['black', 'white', 'blue', 'red', 'grey']);
 
+        $country =Arr::random(['China', 'Turkey', 'Vietnam']);
+        $material = Arr::random(['cotton', 'wool', 'synthetics', 'leather']);
+        $info = ['country' => $country, 'material' => $material];
+
         $product = new Product();
         $product->id = Str::uuid();
         $product->name = $brand . ' ' . $kindProduct . ' ' . $colorProduct;
+        $product->info = $info;
         $product->price = rand(1, 10) * 100;
         $product->published_at = date('Y-m-d H:i:s');
         $product->save();
