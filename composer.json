@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": "^7.4",
+        "illuminate/redis": "^8.83",
         "laravel/lumen-framework": "^8.3.4",
+        "nesbot/carbon": "^2.64",
         "webregul/lumen-form-request": "^1.0"
     },
     "require-dev": {

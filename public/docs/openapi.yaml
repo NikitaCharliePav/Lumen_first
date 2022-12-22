@@ -1,16 +1,150 @@
 openapi: 3.0.3
 info:
-  title: 'Test test test'
-  description: ''
+  title: 'The SideProject API'
+  description: 'Start (and never finish) side projects with this API.'
   version: 1.0.0
 servers:
   -
     url: ''
 paths:
+  /api/v1/order/create:
+    post:
+      summary: Order
+      description: "Создание заказа.\n<aside class=\"success\">Возвращает объект класса заказ</aside>\n<aside class=\"warning\">При ошибки валидации возвращает статус 422. Если передан неизвестный продукт возвращает статус 404</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses: {  }
+      tags:
+        - Orders.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: 'User id.'
+                  example: 384b0e3a-ce7f-4caf-8512-97cf1dcd0a11
+                products:
+                  type: array
+                  description: Products.
+                  example:
+                    - est
+                  items:
+                    type: string
+      security: []
+  /api/v1/last-user-order:
+    get:
+      summary: Order(lastUser)
+      description: "Получение последнего заказа пользователя.\n<aside class=\"success\">Возвращает объект последнего заказа пользователя</aside>\n<aside class=\"warning\">При ошибки валидации возвращает статус 422</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        422:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'The given data was invalid.'
+                  errors:
+                    user_id:
+                      - 'The selected user id is invalid.'
+                properties:
+                  message:
+                    type: string
+                    example: 'The given data was invalid.'
+                  errors:
+                    type: object
+                    example:
+                      user_id:
+                        - 'The selected user id is invalid.'
+      tags:
+        - Orders.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                  description: 'User id.'
+                  example: 384b0e3a-ce7f-4caf-8512-97cf1dcd0a11
+      security: []
+  '/api/v1/sum-products-by-order/{id}':
+    get:
+      summary: Order(SumProducts)
+      description: "Получение суммы стоймости продуктов в заказе.\n<aside class=\"success\">Возвращает сумму стоймости продуктов в заказе</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: integer
+                example: 0
+      tags:
+        - Orders.
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: deleniti
+        required: true
+        schema:
+          type: string
   /api/v1/products:
     get:
-      summary: ''
-      description: ''
+      summary: Products
+      description: "Получение продуктов с пагинацией.\n<aside class=\"notice\">Пример аннотации😕</aside>\n<aside class=\"success\">Возвращает объект продуктов с пагинации</aside>\n<aside class=\"warning\">При ошибки валидации возвращает статус 422</aside>"
       parameters:
         -
           in: query
@@ -57,45 +191,60 @@ paths:
                   current_page: 1
                   data:
                     -
-                      id: 0
-                      name: 'H&M t-shirt blue'
+                      id: 08536c80-58c1-4c16-b93f-53ae4e2f5cf4
+                      name: 'Terranova sweater grey'
+                      info:
+                        country: Vietnam
+                        material: synthetics
                       description: null
-                      price: 500
-                      published_at: '2022-12-06 17:39:21'
-                      created_at: '2022-12-06T17:39:21.000000Z'
-                      updated_at: '2022-12-06T17:39:21.000000Z'
+                      price: 300
+                      published_at: '2022-12-21 11:50:39'
+                      created_at: '2022-12-21T11:50:39.000000Z'
+                      updated_at: '2022-12-21T11:50:39.000000Z'
                     -
-                      id: 9223372036854775807
-                      name: 'Springfild jeans white'
-                      description: null
-                      price: 400
-                      published_at: '2022-12-06 17:39:21'
-                      created_at: '2022-12-06T17:39:21.000000Z'
-                      updated_at: '2022-12-06T17:39:21.000000Z'
-                    -
-                      id: 47
-                      name: 'Modis coat red'
-                      description: null
-                      price: 900
-                      published_at: '2022-12-06 17:39:21'
-                      created_at: '2022-12-06T17:39:21.000000Z'
-                      updated_at: '2022-12-06T17:39:21.000000Z'
-                    -
-                      id: 9223372036854775807
-                      name: 'Springfild dress  black'
-                      description: null
-                      price: 400
-                      published_at: '2022-12-06 17:39:20'
-                      created_at: '2022-12-06T17:39:20.000000Z'
-                      updated_at: '2022-12-06T17:39:20.000000Z'
-                    -
-                      id: 0
-                      name: 'Springfild skirt red'
+                      id: 0a3afe88-212d-48ee-9981-599e7d077ed8
+                      name: 'Zara t-shirt grey'
+                      info:
+                        country: China
+                        material: cotton
                       description: null
                       price: 700
-                      published_at: '2022-12-06 17:39:21'
-                      created_at: '2022-12-06T17:39:21.000000Z'
-                      updated_at: '2022-12-06T17:39:21.000000Z'
+                      published_at: '2022-12-21 11:50:37'
+                      created_at: '2022-12-21T11:50:37.000000Z'
+                      updated_at: '2022-12-21T11:50:37.000000Z'
+                    -
+                      id: 0b4aea75-1e63-453b-9ef8-511b0a604a17
+                      name: 'Springfild sweater blue'
+                      info:
+                        country: Turkey
+                        material: cotton
+                      description: null
+                      price: 800
+                      published_at: '2022-12-21 11:50:38'
+                      created_at: '2022-12-21T11:50:38.000000Z'
+                      updated_at: '2022-12-21T11:50:38.000000Z'
+                    -
+                      id: 0b59c354-2643-4d09-9846-de7c336a35a2
+                      name: 'Bershka sweater white'
+                      info:
+                        country: Vietnam
+                        material: wool
+                      description: null
+                      price: 1000
+                      published_at: '2022-12-21 11:50:38'
+                      created_at: '2022-12-21T11:50:38.000000Z'
+                      updated_at: '2022-12-21T11:50:38.000000Z'
+                    -
+                      id: 11f9d44b-2a6f-45d1-9aa8-3d2064204f29
+                      name: 'Zara t-shirt grey'
+                      info:
+                        country: Vietnam
+                        material: leather
+                      description: null
+                      price: 1000
+                      published_at: '2022-12-21 11:50:38'
+                      created_at: '2022-12-21T11:50:38.000000Z'
+                      updated_at: '2022-12-21T11:50:38.000000Z'
                   first_page_url: 'http://localhost/api/v1/products?page=1'
                   from: 1
                   last_page: 20
@@ -175,45 +324,60 @@ paths:
                     type: array
                     example:
                       -
-                        id: 0
-                        name: 'H&M t-shirt blue'
+                        id: 08536c80-58c1-4c16-b93f-53ae4e2f5cf4
+                        name: 'Terranova sweater grey'
+                        info:
+                          country: Vietnam
+                          material: synthetics
                         description: null
-                        price: 500
-                        published_at: '2022-12-06 17:39:21'
-                        created_at: '2022-12-06T17:39:21.000000Z'
-                        updated_at: '2022-12-06T17:39:21.000000Z'
+                        price: 300
+                        published_at: '2022-12-21 11:50:39'
+                        created_at: '2022-12-21T11:50:39.000000Z'
+                        updated_at: '2022-12-21T11:50:39.000000Z'
                       -
-                        id: 9223372036854775807
-                        name: 'Springfild jeans white'
-                        description: null
-                        price: 400
-                        published_at: '2022-12-06 17:39:21'
-                        created_at: '2022-12-06T17:39:21.000000Z'
-                        updated_at: '2022-12-06T17:39:21.000000Z'
-                      -
-                        id: 47
-                        name: 'Modis coat red'
-                        description: null
-                        price: 900
-                        published_at: '2022-12-06 17:39:21'
-                        created_at: '2022-12-06T17:39:21.000000Z'
-                        updated_at: '2022-12-06T17:39:21.000000Z'
-                      -
-                        id: 9223372036854775807
-                        name: 'Springfild dress  black'
-                        description: null
-                        price: 400
-                        published_at: '2022-12-06 17:39:20'
-                        created_at: '2022-12-06T17:39:20.000000Z'
-                        updated_at: '2022-12-06T17:39:20.000000Z'
-                      -
-                        id: 0
-                        name: 'Springfild skirt red'
+                        id: 0a3afe88-212d-48ee-9981-599e7d077ed8
+                        name: 'Zara t-shirt grey'
+                        info:
+                          country: China
+                          material: cotton
                         description: null
                         price: 700
-                        published_at: '2022-12-06 17:39:21'
-                        created_at: '2022-12-06T17:39:21.000000Z'
-                        updated_at: '2022-12-06T17:39:21.000000Z'
+                        published_at: '2022-12-21 11:50:37'
+                        created_at: '2022-12-21T11:50:37.000000Z'
+                        updated_at: '2022-12-21T11:50:37.000000Z'
+                      -
+                        id: 0b4aea75-1e63-453b-9ef8-511b0a604a17
+                        name: 'Springfild sweater blue'
+                        info:
+                          country: Turkey
+                          material: cotton
+                        description: null
+                        price: 800
+                        published_at: '2022-12-21 11:50:38'
+                        created_at: '2022-12-21T11:50:38.000000Z'
+                        updated_at: '2022-12-21T11:50:38.000000Z'
+                      -
+                        id: 0b59c354-2643-4d09-9846-de7c336a35a2
+                        name: 'Bershka sweater white'
+                        info:
+                          country: Vietnam
+                          material: wool
+                        description: null
+                        price: 1000
+                        published_at: '2022-12-21 11:50:38'
+                        created_at: '2022-12-21T11:50:38.000000Z'
+                        updated_at: '2022-12-21T11:50:38.000000Z'
+                      -
+                        id: 11f9d44b-2a6f-45d1-9aa8-3d2064204f29
+                        name: 'Zara t-shirt grey'
+                        info:
+                          country: Vietnam
+                          material: leather
+                        description: null
+                        price: 1000
+                        published_at: '2022-12-21 11:50:38'
+                        created_at: '2022-12-21T11:50:38.000000Z'
+                        updated_at: '2022-12-21T11:50:38.000000Z'
                     items:
                       type: object
                   first_page_url:
@@ -312,12 +476,92 @@ paths:
                     type: integer
                     example: 100
       tags:
-        - Endpoints
+        - Products.
       security: []
-  /api/v1/order/create:
+  '/api/v1/product/{id}':
+    get:
+      summary: Product(Id)
+      description: "Получение продукта по Id.\n<aside class=\"success\">Возвращает объект продукта</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Products.
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: doloribus
+        required: true
+        schema:
+          type: string
+  /api/v1/product-by-name:
+    get:
+      summary: Product(Name)
+      description: "Получение продукта по имени.\n<aside class=\"success\">Возвращает объект продукта</aside>\n<aside class=\"warning\">При ошибки валидации вернеет 422</aside>"
+      parameters:
+        -
+          in: query
+          name: name
+          description: 'name of Product.'
+          example: 'Bershka sweater blue'
+          required: true
+          schema:
+            type: string
+            description: 'name of Product.'
+            example: 'Bershka sweater blue'
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example: {  }
+                properties: {  }
+      tags:
+        - Products.
+      security: []
+  /api/v1/user/create:
     post:
-      summary: ''
-      description: ''
+      summary: Users
+      description: "Создание юзера.\n<aside class=\"success\">Возвращает объект пользователя</aside>\n<aside class=\"warning\">При ошибки валидации возвращает статус 422</aside>"
       parameters:
         -
           in: header
@@ -335,27 +579,778 @@ paths:
             type: string
       responses: {  }
       tags:
-        - Endpoints
+        - Users.
       requestBody:
-        required: false
+        required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                user_id:
+                login:
                   type: string
-                  description: 'User id.'
-                  example: 384b0e3a-ce7f-4caf-8512-97cf1dcd0a11
-                products:
-                  type: array
-                  description: Products.
-                  example:
-                    - est
-                  items:
-                    type: string
+                  description: 'user login.'
+                  example: charlie_1488228
+                email:
+                  type: string
+                  description: 'user email. Must be a valid email address.'
+                  example: charlie1488@mail.ru
+                name:
+                  type: string
+                  description: 'user name.'
+                  example: Charlie
+                birthday_at:
+                  type: string
+                  description: 'birthday date. Must be a valid date. Must be a valid date in the format <code>d.m.Y</code>. Must be a date after <code>01.01.1950</code>. Must be a date before <code>01.01.2022</code>.'
+                  example: '1994-12-20'
+                gender:
+                  type: string
+                  description: 'gender. Must be one of <code>male</code> or <code>female</code>.'
+                  example: male
+                password:
+                  type: string
+                  description: 'user password. The value format is invalid. Must be at least 6 characters.'
+                  example: gdf45egdGFSD
+              required:
+                - login
+                - name
       security: []
+  /api/v1/users-with-email:
+    get:
+      summary: Users(WithEmail)
+      description: "Получение юзеров у которых заполнено поле email.\n<aside class=\"success\">Возвращает объект пользователей</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example: []
+      tags:
+        - Users.
+      security: []
+  /api/v1/new-users:
+    get:
+      summary: Users(New)
+      description: "Получение новых юзеров, за последние 3 дня.\n<aside class=\"success\">Возвращает объект пользователей</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example: []
+      tags:
+        - Users.
+      security: []
+  /api/v1/user-by-email:
+    get:
+      summary: Users(ByEmail)
+      description: "Получение юзеров по email.\n<aside class=\"success\">Возвращает объект пользователя</aside>\n<aside class=\"warning\">При ошибки валидации возвращает статус 422</aside>"
+      parameters:
+        -
+          in: query
+          name: email
+          description: 'User email. Must be a valid email address.'
+          example: example@mail.com
+          required: true
+          schema:
+            type: string
+            description: 'User email. Must be a valid email address.'
+            example: example@mail.com
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Users.
+      security: []
+  /api/v1/users-with-orders:
+    get:
+      summary: Users(WithOrder)
+      description: "Получение юзеров с заказами.\n<aside class=\"success\">Возвращает объект пользователй</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                example: []
+      tags:
+        - Users.
+      security: []
+  '/api/v1/user-birthday/{id}':
+    get:
+      summary: Users(Birthday)
+      description: "Получение юзеров у которых заполнено поле даты рождения.\n<aside class=\"success\">Возвращает дату дня рождения пользователя</aside>\n<aside class=\"warning\">Возвращает ошибку 404 если не нашел пользователя</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        500:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: error
+                  exception: Exception
+                  file: /var/www/app/Services/UserService.php
+                  line: 79
+                  trace:
+                    -
+                      file: /var/www/app/Http/Controllers/UsersController.php
+                      line: 122
+                      function: getUserBirthday
+                      class: App\Services\UserService
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 36
+                      function: getUserBirthday
+                      class: App\Http\Controllers\UsersController
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/container/Util.php
+                      line: 40
+                      function: 'Illuminate\Container\{closure}'
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 93
+                      function: unwrapIfClosure
+                      class: Illuminate\Container\Util
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 37
+                      function: callBoundMethod
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/Container.php
+                      line: 653
+                      function: call
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 389
+                      function: call
+                      class: Illuminate\Container\Container
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 332
+                      function: callControllerCallable
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 282
+                      function: callControllerAction
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 267
+                      function: callActionOnArrayBasedRoute
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 237
+                      function: handleFoundRoute
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 173
+                      function: handleDispatcherResponse
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 429
+                      function: 'Laravel\Lumen\Concerns\{closure}'
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 175
+                      function: sendThroughPipeline
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                      line: 95
+                      function: dispatch
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                      line: 308
+                      function: handle
+                      class: Laravel\Lumen\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                      line: 287
+                      function: callLaravelOrLumenRoute
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                      line: 89
+                      function: makeApiCall
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                      line: 45
+                      function: makeResponseCall
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                      line: 35
+                      function: makeResponseCallIfConditionsPass
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                      line: 222
+                      function: __invoke
+                      class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                      line: 179
+                      function: iterateThroughStrategies
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                      line: 116
+                      function: fetchResponses
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                      line: 123
+                      function: processRoute
+                      class: Knuckles\Scribe\Extracting\Extractor
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                      line: 80
+                      function: extractEndpointsInfoFromLaravelApp
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                      line: 56
+                      function: extractEndpointsInfoAndWriteToDisk
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: /var/www/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php
+                      line: 55
+                      function: get
+                      class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 36
+                      function: handle
+                      class: Knuckles\Scribe\Commands\GenerateDocumentation
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/container/Util.php
+                      line: 40
+                      function: 'Illuminate\Container\{closure}'
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 93
+                      function: unwrapIfClosure
+                      class: Illuminate\Container\Util
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/BoundMethod.php
+                      line: 37
+                      function: callBoundMethod
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/container/Container.php
+                      line: 653
+                      function: call
+                      class: Illuminate\Container\BoundMethod
+                      type: '::'
+                    -
+                      file: /var/www/vendor/illuminate/console/Command.php
+                      line: 136
+                      function: call
+                      class: Illuminate\Container\Container
+                      type: '->'
+                    -
+                      file: /var/www/vendor/symfony/console/Command/Command.php
+                      line: 298
+                      function: execute
+                      class: Illuminate\Console\Command
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/console/Command.php
+                      line: 121
+                      function: run
+                      class: Symfony\Component\Console\Command\Command
+                      type: '->'
+                    -
+                      file: /var/www/vendor/symfony/console/Application.php
+                      line: 1040
+                      function: run
+                      class: Illuminate\Console\Command
+                      type: '->'
+                    -
+                      file: /var/www/vendor/symfony/console/Application.php
+                      line: 301
+                      function: doRunCommand
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/symfony/console/Application.php
+                      line: 171
+                      function: doRun
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/illuminate/console/Application.php
+                      line: 94
+                      function: run
+                      class: Symfony\Component\Console\Application
+                      type: '->'
+                    -
+                      file: /var/www/vendor/laravel/lumen-framework/src/Console/Kernel.php
+                      line: 116
+                      function: run
+                      class: Illuminate\Console\Application
+                      type: '->'
+                    -
+                      file: /var/www/artisan
+                      line: 35
+                      function: handle
+                      class: Laravel\Lumen\Console\Kernel
+                      type: '->'
+                properties:
+                  message:
+                    type: string
+                    example: error
+                  exception:
+                    type: string
+                    example: Exception
+                  file:
+                    type: string
+                    example: /var/www/app/Services/UserService.php
+                  line:
+                    type: integer
+                    example: 79
+                  trace:
+                    type: array
+                    example:
+                      -
+                        file: /var/www/app/Http/Controllers/UsersController.php
+                        line: 122
+                        function: getUserBirthday
+                        class: App\Services\UserService
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 36
+                        function: getUserBirthday
+                        class: App\Http\Controllers\UsersController
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/container/Util.php
+                        line: 40
+                        function: 'Illuminate\Container\{closure}'
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 93
+                        function: unwrapIfClosure
+                        class: Illuminate\Container\Util
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 37
+                        function: callBoundMethod
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/Container.php
+                        line: 653
+                        function: call
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 389
+                        function: call
+                        class: Illuminate\Container\Container
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 332
+                        function: callControllerCallable
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 282
+                        function: callControllerAction
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 267
+                        function: callActionOnArrayBasedRoute
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 237
+                        function: handleFoundRoute
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 173
+                        function: handleDispatcherResponse
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 429
+                        function: 'Laravel\Lumen\Concerns\{closure}'
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 175
+                        function: sendThroughPipeline
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Concerns/RoutesRequests.php
+                        line: 95
+                        function: dispatch
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                        line: 308
+                        function: handle
+                        class: Laravel\Lumen\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                        line: 287
+                        function: callLaravelOrLumenRoute
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                        line: 89
+                        function: makeApiCall
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                        line: 45
+                        function: makeResponseCall
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php
+                        line: 35
+                        function: makeResponseCallIfConditionsPass
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                        line: 222
+                        function: __invoke
+                        class: Knuckles\Scribe\Extracting\Strategies\Responses\ResponseCalls
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                        line: 179
+                        function: iterateThroughStrategies
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php
+                        line: 116
+                        function: fetchResponses
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                        line: 123
+                        function: processRoute
+                        class: Knuckles\Scribe\Extracting\Extractor
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                        line: 80
+                        function: extractEndpointsInfoFromLaravelApp
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php
+                        line: 56
+                        function: extractEndpointsInfoAndWriteToDisk
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: /var/www/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php
+                        line: 55
+                        function: get
+                        class: Knuckles\Scribe\GroupedEndpoints\GroupedEndpointsFromApp
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 36
+                        function: handle
+                        class: Knuckles\Scribe\Commands\GenerateDocumentation
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/container/Util.php
+                        line: 40
+                        function: 'Illuminate\Container\{closure}'
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 93
+                        function: unwrapIfClosure
+                        class: Illuminate\Container\Util
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/BoundMethod.php
+                        line: 37
+                        function: callBoundMethod
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/container/Container.php
+                        line: 653
+                        function: call
+                        class: Illuminate\Container\BoundMethod
+                        type: '::'
+                      -
+                        file: /var/www/vendor/illuminate/console/Command.php
+                        line: 136
+                        function: call
+                        class: Illuminate\Container\Container
+                        type: '->'
+                      -
+                        file: /var/www/vendor/symfony/console/Command/Command.php
+                        line: 298
+                        function: execute
+                        class: Illuminate\Console\Command
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/console/Command.php
+                        line: 121
+                        function: run
+                        class: Symfony\Component\Console\Command\Command
+                        type: '->'
+                      -
+                        file: /var/www/vendor/symfony/console/Application.php
+                        line: 1040
+                        function: run
+                        class: Illuminate\Console\Command
+                        type: '->'
+                      -
+                        file: /var/www/vendor/symfony/console/Application.php
+                        line: 301
+                        function: doRunCommand
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/symfony/console/Application.php
+                        line: 171
+                        function: doRun
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/illuminate/console/Application.php
+                        line: 94
+                        function: run
+                        class: Symfony\Component\Console\Application
+                        type: '->'
+                      -
+                        file: /var/www/vendor/laravel/lumen-framework/src/Console/Kernel.php
+                        line: 116
+                        function: run
+                        class: Illuminate\Console\Application
+                        type: '->'
+                      -
+                        file: /var/www/artisan
+                        line: 35
+                        function: handle
+                        class: Laravel\Lumen\Console\Kernel
+                        type: '->'
+                    items:
+                      type: object
+      tags:
+        - Users.
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: numquam
+        required: true
+        schema:
+          type: string
+  '/api/v1/user/{id}':
+    get:
+      summary: Users(ById)
+      description: "Получение юзера по Id.\n<aside class=\"success\">Возвращает объект пользователя</aside>"
+      parameters:
+        -
+          in: header
+          name: Content-Type
+          description: ''
+          example: application/json
+          schema:
+            type: string
+        -
+          in: header
+          name: Accept
+          description: ''
+          example: application/json
+          schema:
+            type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ''
+      tags:
+        - Users.
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: ''
+        example: et
+        required: true
+        schema:
+          type: string
 tags:
   -
-    name: Endpoints
+    name: Orders.
+    description: ''
+  -
+    name: Products.
+    description: ''
+  -
+    name: Users.
     description: ''

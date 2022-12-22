@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Traits\UuidTrait;
+use Carbon\Carbon;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -21,7 +22,7 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      * @var string[]
      */
     protected $fillable = [
-        'name', 'login'
+        'name', 'login', 'birthday_at'
     ];
 
     /**
@@ -32,4 +33,33 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     protected $hidden = [
 
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
+    /**
+     * Change format date
+     * @return string
+     */
+    public function getBirthdayAtAttribute()
+    {
+        return Carbon::createFromDate($this->attributes['birthday_at'])->format('d.m.Y');
+    }
+
+    /**
+     * @param $value
+     * @return void
+     */
+    public function setBirthdayAtAttribute($value)
+    {
+
+        $this->attributes['birthday_at'] = Carbon::createFromDate($value)->format('Y-m-d');
+    }
 }

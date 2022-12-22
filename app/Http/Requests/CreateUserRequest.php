@@ -29,7 +29,7 @@ class CreateUserRequest extends FormRequest
             'login' => 'string|required|unique:users,login',
             'email' => 'email|unique:users,email',
             'name' => 'string|required',
-            'birthday_at' => 'date|date_format:Y-m-d|after:1950-01-01|before:2022-01-01',
+            'birthday_at' => 'date|date_format:d.m.Y|after:01.01.1950|before:01.01.2022',
             'gender' => 'string|in:male,female',
             'password' => 'regex:/[a-z0-9!"№;%:?*_-]/i|string|min:6',
         ];

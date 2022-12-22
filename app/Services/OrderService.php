@@ -10,6 +10,11 @@ use PHPUnit\Util\Exception;
 
 class OrderService
 {
+    /**
+     * @param string $userId
+     * @param array $products
+     * @return Order
+     */
     public function  createOrder(string $userId, array $products)
     {
         return DB::transaction(function () use($userId, $products){
@@ -23,6 +28,11 @@ class OrderService
         });
     }
 
+    /**
+     * @param array $products
+     * @param string $orderId
+     * @return void
+     */
     protected function createOrderProducts(array $products, string $orderId)
     {
         $products = array_unique($products);
@@ -37,6 +47,33 @@ class OrderService
             $orderProducts->setAttribute('product_id', $productId);
             $orderProducts->save();
         }
+    }
+
+    /**
+     * @param string $userId
+     * @return Order|null
+     */
+    public  function getLastUserOrder (string $userId)
+    {
+        $order = Order::where('user_id', $userId)->orderBy('created_at', 'DESC')->first();
+
+        return $order;
+    }
+
+    /**
+     * @param string $id
+     * @return int
+     */
+    public function getSumProductsByOrder(string $id)
+    {
+        $sum = 0;
+        $orderProduct = OrderProduct::with('products')->where('order_id', $id)->get();
+        foreach ($orderProduct as $order)
+        {
+            $sum += $order->products->sum('price');
+        }
+        return $sum;
+
     }
 
 }

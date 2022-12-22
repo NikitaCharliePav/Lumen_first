@@ -82,6 +82,7 @@ $app->configure('app');
 // ]);
 $app->withEloquent();
 $app->withFacades();
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

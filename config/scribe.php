@@ -9,13 +9,20 @@ return [
     /*
      * The HTML <title> for the generated documentation. If this is empty, Scribe will infer it from config('app.name').
      */
-    'title' => "Test test test",
+    'title' => "The SideProject API",
 
     /*
      * A short description of your API. Will be included in the docs webpage, Postman collection and OpenAPI spec.
      */
-    'description' => '',
+    'description' => 'Start (and never finish) side projects with this API.',
+    'intro_text' => <<<INTRO
+This documentation will provide all the information you need to work with our API.
 
+<aside>
+As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
+You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).
+</aside>
+INTRO,
     /*
      * The base URL displayed in the docs. If this is empty, Scribe will use the value of config('app.url').
      */
@@ -253,13 +260,6 @@ return [
     /*
      * Text to place in the "Introduction" section, right after the `description`. Markdown and HTML are supported.
      */
-    'intro_text' => <<<INTRO
-This documentation aims to provide 555 all the information you need to work with our API.
-
-<aside>As you scroll, you'll see code examples for working with the API in different programming languages in the dark area to the right (or as part of the content on mobile).
-You can switch the language used with the tabs at the top right (or from the nav menu at the top left on mobile).</aside>
-INTRO
-    ,
 
     /*
      * Example requests for each endpoint will be shown in each of these languages.
