@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 class UserService
 {
     /**
+     * Создание юзера
      * @param array $data
      * @return User
      */
